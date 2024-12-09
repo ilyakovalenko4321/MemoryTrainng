@@ -10,4 +10,5 @@ public class MemoryTrainngApplication {
 		SpringApplication.run(MemoryTrainngApplication.class, args);
 	}
 
+
 }
