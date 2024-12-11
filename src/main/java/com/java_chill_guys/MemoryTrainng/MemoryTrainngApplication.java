@@ -1,16 +1,18 @@
 package com.java_chill_guys.MemoryTrainng;
 
-import com.java_chill_guys.MemoryTrainng.service.Impl.WordServiceImpl;
-import lombok.RequiredArgsConstructor;
+import com.java_chill_guys.MemoryTrainng.service.WordService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-@RequiredArgsConstructor
 public class MemoryTrainngApplication implements CommandLineRunner {
 
-	private final WordServiceImpl wordServiceImpl;
+	private final WordService wordServiceImpl;
+
+	public MemoryTrainngApplication(WordService wordServiceImpl) {
+		this.wordServiceImpl = wordServiceImpl;
+	}
 
 	public static void main(String[] args) {
 		SpringApplication.run(MemoryTrainngApplication.class, args);
@@ -22,7 +24,7 @@ public class MemoryTrainngApplication implements CommandLineRunner {
 		// Основная логика консольного приложения
 		System.out.println("Приложение запущено!");
 		// Например, вызов сервисов или обработка данных
-		while(true) {
+		while (true) {
 			int result_code = wordServiceImpl.play();
 			if (result_code == -1) {
 				break;
