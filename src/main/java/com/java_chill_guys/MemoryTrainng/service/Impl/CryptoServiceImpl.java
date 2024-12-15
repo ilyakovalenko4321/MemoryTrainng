@@ -3,14 +3,16 @@ package com.java_chill_guys.MemoryTrainng.service.Impl;
 import com.java_chill_guys.MemoryTrainng.domain.level.Level;
 import com.java_chill_guys.MemoryTrainng.service.CryptoService;
 import com.java_chill_guys.MemoryTrainng.service.Props.LevelEncryptProps;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
-@RequiredArgsConstructor
 public class CryptoServiceImpl implements CryptoService {
 
     private final LevelEncryptProps props;
+
+    public CryptoServiceImpl(LevelEncryptProps props) {
+        this.props = props;
+    }
 
     @Override
     public Level decrypt(String encryptedData) {

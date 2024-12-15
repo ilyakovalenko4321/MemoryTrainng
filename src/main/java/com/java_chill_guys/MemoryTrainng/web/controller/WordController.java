@@ -4,33 +4,42 @@ import com.java_chill_guys.MemoryTrainng.domain.level.Level;
 import com.java_chill_guys.MemoryTrainng.service.CryptoService;
 import com.java_chill_guys.MemoryTrainng.service.WordService;
 import com.java_chill_guys.MemoryTrainng.web.dto.DataDto;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1")
-@RequiredArgsConstructor
+@CrossOrigin(origins = "http://localhost:63342") //TODO: Починить
 public class WordController {
 
     private final WordService wordService;
     private final CryptoService cryptoService;
 
-    @GetMapping("/play")
-    public DataDto play(@RequestBody DataDto dto){
-        if(dto.getEncodedLevel().isEmpty()){
-            Long stage = 1L;
-            Long repeated = 0L;
-            Level blankLevel = new Level(stage, repeated);
-            String d = cryptoService.encrypt(blankLevel);
+    public WordController(WordService wordService, CryptoService cryptoService) {
+        this.wordService = wordService;
+        this.cryptoService = cryptoService;
+    }
+
+    @PostMapping("/play")
+    public Map<String, Object> play(@RequestBody(required = false) DataDto dto) {
+
+        if (dto == null || dto.getEncodedLevel().isEmpty() || dto.getEncodedLevel().isBlank()) {
+            dto = new DataDto();
+            Level blankLevel = new Level(1L, 0L);
             dto.setEncodedLevel(cryptoService.encrypt(blankLevel));
+            dto.setWords("");
+            dto.setWordsUser("");
         }
+        // Получаем результат из сервиса
+        DataDto responseData = wordService.play(dto);
 
-        return wordService.play(dto);
+        Map<String, Object> result = new HashMap<>();
+        result.put("DataDto", responseData);
 
+        return result;
     }
 
 }

@@ -1,18 +1,19 @@
 <!doctype html>
 <html class="no-js" lang="">
-
 <head>
+    <link rel="stylesheet" href="style/indexstyle.css">
+    <script src="js/indexscript.js"></script>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title></title>
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="manifest" href="site.webmanifest">
+    <title>Тренажёр памяти</title>
 </head>
 
 <body>
-<script src="js/app.js"></script>
-<p>Hello world! This is HTML5 Boilerplate.</p>
-<button onclick="onButtonClick()">test</button>
+<h1>Сайт для тренировки памяти бла бла бла </h1>
+<h3 id="responseContainer">Здесь появится текст, который нужно запомнить.</h3>
+<span id="inputContainer">
+            <input type="text" id="userInput" placeholder="Введите слово, которое появилось на экране">
+        </span>
+<button id="requestGetTask" onclick="getUserTask()">Начать игру</button>
+<button id="requestVerifyInput" onclick="sendUserInput()">Готово</button>
 </body>
-
 </html>

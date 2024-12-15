@@ -7,7 +7,6 @@ import com.java_chill_guys.MemoryTrainng.repository.WordRepository;
 import com.java_chill_guys.MemoryTrainng.service.CryptoService;
 import com.java_chill_guys.MemoryTrainng.service.WordService;
 import com.java_chill_guys.MemoryTrainng.web.dto.DataDto;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
@@ -16,11 +15,15 @@ import java.util.HashSet;
 import java.util.List;
 
 @Service
-@RequiredArgsConstructor
 public class WordServiceImpl implements WordService {
 
     private final CryptoService cryptoService;
     private final WordRepository wordRepository;
+
+    public WordServiceImpl(CryptoService cryptoService, WordRepository wordRepository) {
+        this.cryptoService = cryptoService;
+        this.wordRepository = wordRepository;
+    }
 
     private String getResultString(List<Word> words, String separator) {
         StringBuilder resultString = new StringBuilder();
