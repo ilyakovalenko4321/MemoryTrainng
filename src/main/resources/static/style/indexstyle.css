@@ -36,7 +36,7 @@ h1 {
     background-color: #0056b3;
 }
 
-#responseContainer {
+#taskTextBox {
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
     border: 2px dashed #007bff;
     border-radius: 5px;

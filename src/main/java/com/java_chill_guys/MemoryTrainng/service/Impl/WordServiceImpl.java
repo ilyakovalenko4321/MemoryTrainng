@@ -1,6 +1,4 @@
 package com.java_chill_guys.MemoryTrainng.service.Impl;
-
-import com.java_chill_guys.MemoryTrainng.domain.exceptions.WrongAnswer;
 import com.java_chill_guys.MemoryTrainng.domain.level.Level;
 import com.java_chill_guys.MemoryTrainng.domain.word.Word;
 import com.java_chill_guys.MemoryTrainng.repository.WordRepository;
@@ -81,7 +79,7 @@ public class WordServiceImpl implements WordService {
                 String necessarySeq = new StringBuilder(dto.getWords()).reverse().toString();
                 isCorrect = hardValidate(necessarySeq, dto.getWordsUser());
                 if (!isCorrect) {
-                    throw new WrongAnswer("Неправильный ввод");
+                    return new DataDto(cryptoService.encrypt(level), getResultString(words, ""), "");
                 }
 
                 incrementOrResetLevel(level, isCorrect, 2L);
@@ -93,7 +91,7 @@ public class WordServiceImpl implements WordService {
 
                 isCorrect = validateSequence(dto.getWords(), dto.getWordsUser());
                 if (!isCorrect) {
-                    throw new WrongAnswer("Неправильный ввод. Проверьте последовательность.");
+                    return new DataDto(cryptoService.encrypt(level), getResultString(words, " "), "");
                 }
 
                 incrementOrResetLevel(level, isCorrect, 3L);
@@ -105,7 +103,7 @@ public class WordServiceImpl implements WordService {
 
                 isCorrect = hardValidate(dto.getWords(), dto.getWordsUser());
                 if (!isCorrect) {
-                    throw new WrongAnswer("Неправильный ввод. Проверьте последовательность.");
+                    return new DataDto(cryptoService.encrypt(level), getResultString(words, " "), "");
                 }
 
                 incrementOrResetLevel(level, isCorrect, 4L);
@@ -118,7 +116,7 @@ public class WordServiceImpl implements WordService {
 
                 isCorrect = validateSequence(necessarySeq, dto.getWordsUser());
                 if (!isCorrect) {
-                    throw new WrongAnswer("Неправильный ввод. Проверьте последовательность.");
+                    return new DataDto(cryptoService.encrypt(level), getResultString(words, " "), "");
                 }
 
                 incrementOrResetLevel(level, isCorrect, 5L);
@@ -132,7 +130,7 @@ public class WordServiceImpl implements WordService {
 
                 isCorrect = hardValidate(necessarySeq, dto.getWordsUser());
                 if (!isCorrect) {
-                    throw new WrongAnswer("Неправильный ввод. Проверьте последовательность.");
+                    return new DataDto(cryptoService.encrypt(level), getResultString(words, " "), "");
                 }
 
                 incrementOrResetLevel(level, isCorrect, 0L);

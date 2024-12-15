@@ -10,7 +10,7 @@ TRUNCATE TABLE words;
 
 -- Шаг 3. Загрузка данных из файла (ид автоматически генерируется)
 COPY words (word)
-    FROM 'C:/Work/data/russian_words.txt'
+    FROM '/data/russian_words.txt'
     WITH (
     FORMAT TEXT, -- Текстовый формат файла
     ENCODING 'UTF8' -- Кодировка файла
