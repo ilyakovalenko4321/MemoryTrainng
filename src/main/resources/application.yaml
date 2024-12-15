@@ -12,3 +12,5 @@ spring:
     username: ${POSTGRES_USERNAME}
     password: ${POSTGRES_PASSWORD}
     driver-class-name: org.postgresql.Driver
+  level:
+    key: ${LEVEL_KEY}

@@ -1,38 +1,45 @@
 package com.java_chill_guys.MemoryTrainng.web.controller;
 
-import java.util.Map;
-import java.util.HashMap;
-import java.time.LocalDateTime;
-
-import com.java_chill_guys.MemoryTrainng.service.Impl.WordServiceImpl;
+import com.java_chill_guys.MemoryTrainng.domain.level.Level;
+import com.java_chill_guys.MemoryTrainng.service.CryptoService;
+import com.java_chill_guys.MemoryTrainng.service.WordService;
+import com.java_chill_guys.MemoryTrainng.web.dto.DataDto;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @RestController
 @RequestMapping("/api/v1")
-@CrossOrigin(origins = "null")
-////////////////// REMOVE NULL ORIGIN!
+@CrossOrigin(origins = "http://localhost:63342") //TODO: Починить
 public class WordController {
-    String userTask = "TEXT";
-    String userLevel = "1";
-    //userTask = WordServiceImpl.userTaskOutput()
 
-    @GetMapping("/sendUserTask")
-    public Map<String, Object> sendUserTask() {
-        Map<String, Object> response = new HashMap<>();
-        response.put("message", userTask);
-        response.put("level", userLevel);
-        return response; // Automatically converted to JSON
+    private final WordService wordService;
+    private final CryptoService cryptoService;
+
+    public WordController(WordService wordService, CryptoService cryptoService) {
+        this.wordService = wordService;
+        this.cryptoService = cryptoService;
     }
 
-    @PostMapping("/verifyUserData")
-    public Map<String, Object> verifyUserData(@RequestBody Map<String, String> payload) {
-        String userInput = payload.get("input"); // Extract user input from the request
-        boolean isCorrect = userTask.equalsIgnoreCase(userInput); // Compare input with task text
+    @PostMapping("/play")
+    public Map<String, Object> play(@RequestBody(required = false) DataDto dto) {
 
-        Map<String, Object> response = new HashMap<>();
-        response.put("correct", isCorrect); // Send result
-        return response;
+        if (dto == null || dto.getEncodedLevel().isEmpty() || dto.getEncodedLevel().isBlank()) {
+            dto = new DataDto();
+            Level blankLevel = new Level(1L, 0L);
+            dto.setEncodedLevel(cryptoService.encrypt(blankLevel));
+            dto.setWords("");
+            dto.setWordsUser("");
+        }
+        // Получаем результат из сервиса
+        DataDto responseData = wordService.play(dto);
+
+        Map<String, Object> result = new HashMap<>();
+        result.put("DataDto", responseData);
+
+        return result;
     }
 
 }

@@ -1,11 +1,11 @@
 package com.java_chill_guys.MemoryTrainng;
 
-import com.java_chill_guys.MemoryTrainng.service.WordService;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 
 @SpringBootApplication
+@ConfigurationPropertiesScan
 public class MemoryTrainngApplication{
 
 	////////////////// REMOVE NULL ORIGIN FROM WORD CONTROLLER!

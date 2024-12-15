@@ -1,21 +1,38 @@
-function getUserTask(){
-    fetch('http://localhost:8080/api/v1/sendUserTask')
+let responseData;
+
+function getUserTask() {
+    // Подготовка начальных данных для запроса /play
+    const requestData = {
+        encodedLevel: "", // Пустое значение, будет обработано сервером
+        words: "",
+        wordsUser: ""
+    };
+
+    fetch('http://localhost:8080/api/v1/play', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(requestData)
+    })
         .then(response => {
-            if (!response.ok) {throw new Error(`HTTP error! status: ${response.status}`);}
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
             return response.json();
         })
         .then(data => {
+            responseData = data.DataDto; // Получаем объект DataDto из ответа
             let countdown = 5;
             const responseContainer = document.getElementById('responseContainer');
 
             const updateCountdown = () => {
                 if (countdown > 0) {
-                    responseContainer.innerText = `${data.message} (${countdown})`;
+                    responseContainer.innerText = `${responseData.words} (${countdown})`;
                     countdown--;
-                    setTimeout(updateCountdown, 1000); // Call the function again after 1 second
-                }
-                else {
-                    // Once the countdown is complete, show the next message
+                    setTimeout(updateCountdown, 1000); // Повторить через 1 секунду
+                } else {
+                    // По окончании таймера показываем следующее сообщение
                     document.getElementById('requestGetTask').innerText = 'Попробовать заново';
                     document.getElementById('requestVerifyInput').style.visibility = 'visible';
                     document.getElementById('inputContainer').style.visibility = 'visible';
@@ -28,19 +45,26 @@ function getUserTask(){
         })
         .catch(error => {
             document.getElementById('responseContainer').innerText = 'Ошибка получения информации из базы данных . . .';
+            console.error('Error fetching data:', error);
         });
-
 }
 
 function sendUserInput() {
-    const userInput = document.getElementById('userInput').value; // Get user input
+    const userInput = document.getElementById('userInput').value; // Получаем ввод пользователя
 
-    fetch('http://localhost:8080/api/v1/verifyUserData', {
+    // Подготовка данных для запроса /play с проверкой
+    const requestData = {
+        encodedLevel: responseData.encodedLevel, // Пустое значение
+        words: responseData.words,
+        wordsUser: userInput // Ввод пользователя для проверки
+    };
+
+    fetch('http://localhost:8080/api/v1/play', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ input: userInput }) // Send input as JSON
+        body: JSON.stringify(requestData) // Отправляем ввод как JSON
     })
         .then(response => {
             if (!response.ok) {
@@ -49,12 +73,12 @@ function sendUserInput() {
             return response.json();
         })
         .then(data => {
-            // Display verification result
+            // Отображение результата проверки
             const responseContainer = document.getElementById('responseContainer');
-            if (data.correct) {
-                responseContainer.innerText = 'Верно! Вы правильно запомнили текст.';
-            } else {
+            if (data.DataDto.encodedLevel === responseData.encodedLevel) {
                 responseContainer.innerText = 'Неверно! Попробуйте еще раз.';
+            } else {
+                responseContainer.innerText = 'Верно! Вы правильно запомнили текст.';
             }
         })
         .catch(error => {

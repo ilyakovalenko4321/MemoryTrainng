@@ -11,10 +11,11 @@ public interface WordRepository extends JpaRepository<Word, Long> {
 
     @Query(value = """
             SELECT *
-            FROM words
+            FROM words w
+            WHERE LENGTH(w.word) = :length
             ORDER BY RANDOM()
             LIMIT :number;
             """, nativeQuery = true)
-    List<Word> selectNumOfWords(@Param("number") Integer number);
+    List<Word> selectNumOfWords(@Param("number") Integer number, @Param("length") Integer length);
 
 }
