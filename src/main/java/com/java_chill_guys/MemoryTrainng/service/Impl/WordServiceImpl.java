@@ -12,14 +12,9 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class WordServiceImpl implements WordService {
     @SneakyThrows
-    public void wordOutput() {
-        System.out.println("asdasdasldln");
-        try {
-            TimeUnit.SECONDS.sleep(3);
-            System.out.flush();
-        }
-        catch (InterruptedException e){}
+    public String userTaskOutput() {
 
+        return "TEST TEXT";
     }
     public int secondLevel() {
         return 0;
@@ -36,7 +31,7 @@ public class WordServiceImpl implements WordService {
     @Override
     public int play() {
 
-        wordOutput();
+        //userTaskOutput();
         secondLevel();
         thirdLevel();
         fourthLevel();
