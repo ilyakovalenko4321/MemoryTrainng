@@ -7,10 +7,7 @@ import com.java_chill_guys.MemoryTrainng.service.WordService;
 import com.java_chill_guys.MemoryTrainng.web.dto.DataDto;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class WordServiceImpl implements WordService {
@@ -58,6 +55,9 @@ public class WordServiceImpl implements WordService {
             level.setRepeated(level.getRepeated() + 1);
             if (level.getRepeated() == 12) {
                 level.setStage(nextStage);
+                level.setRepeated(0L);
+            }
+            else {
                 level.setRepeated(0L);
             }
         }
