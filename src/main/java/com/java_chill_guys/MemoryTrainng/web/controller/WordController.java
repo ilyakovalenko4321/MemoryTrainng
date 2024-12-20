@@ -12,6 +12,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1")
+
 @CrossOrigin(origins = "null") //TODO: Починить
 public class WordController {
 
