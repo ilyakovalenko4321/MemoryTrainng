@@ -14,7 +14,7 @@ function getUserTask() {
     document.getElementById('requestGetTask').style.visibility = 'hidden';
     responseData.wordsUser = document.getElementById('userInput').value;
     document.getElementById('userInput').value = "";
-    fetch('http://localhost:8080/api/v1/play', {
+    fetch('https://memorytrainng-production.up.railway.app/api/v1/play', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify(responseData)
