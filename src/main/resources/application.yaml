@@ -1,16 +1,10 @@
 spring:
   config:
     import: optional:file:.env[.properties]
-
-  liquibase:
-    change-log: classpath*:liquibase/db.changelog.yaml
-    enabled: true
-    default-schema: public
-
   datasource:
-    url: jdbc:postgresql://${HOST}:5432/${POSTGRES_DATABASE}?currentSchema=${POSTGRES_SCHEMA}
-    username: ${POSTGRES_USERNAME}
-    password: ${POSTGRES_PASSWORD}
+    url: jdbc:postgresql://${HOST}:${DB_PORT}/${DB_NAME}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
     driver-class-name: org.postgresql.Driver
   level:
     key: ${LEVEL_KEY}
