@@ -7,6 +7,8 @@ let responseData= {
 };
 
 
+
+
 function getUserTask() {
     document.getElementById('userInput').style.visibility = 'hidden';
     document.getElementById('requestGetTask').style.visibility = 'hidden';

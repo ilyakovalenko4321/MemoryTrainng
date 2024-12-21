@@ -8,6 +8,13 @@ CREATE TABLE IF NOT EXISTS words
 -- Шаг 2. Очистка таблицы перед загрузкой (опционально)
 TRUNCATE TABLE words;
 
+CREATE TABLE IF NOT EXISTS UserData
+(
+    id BIGSERIAL PRIMARY KEY,
+    deviceId TEXT NOT NULL,
+    userLevel INT NOT NULL
+);
+
 -- Шаг 3. Загрузка данных из файла (ид автоматически генерируется)
 COPY words (word)
     FROM '/data/russian_words.txt'
