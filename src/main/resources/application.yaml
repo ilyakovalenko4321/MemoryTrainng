@@ -1,6 +1,12 @@
 spring:
   config:
     import: optional:file:.env[.properties]
+
+  liquibase:
+    change-log: classpath*:liquibase/db.changelog.yaml
+    enabled: true
+    default-schema: public
+
   datasource:
     url: jdbc:postgresql://${HOST}:${DB_PORT}/${DB_NAME}
     username: ${DB_USERNAME}

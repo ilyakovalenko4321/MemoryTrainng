@@ -9,12 +9,9 @@ CREATE TABLE IF NOT EXISTS words
 TRUNCATE TABLE words;
 
 -- Шаг 3. Загрузка данных из файла (ид автоматически генерируется)
-COPY words (word)
-    FROM '/data/russian_words.txt'
-    WITH (
-    FORMAT TEXT, -- Текстовый формат файла
-    ENCODING 'UTF8' -- Кодировка файла
-    );
+INSERT INTO words
+VALUES (0, 'проверка'),
+       (1, 'фывап');
 
 DELETE
 FROM words w
