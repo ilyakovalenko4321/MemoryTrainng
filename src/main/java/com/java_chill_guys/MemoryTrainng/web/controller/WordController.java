@@ -13,7 +13,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/v1")
 
-@CrossOrigin(origins = "null") //TODO: Починить
+@CrossOrigin(origins = "https://memorytrainng-production.up.railway.app/") //TODO: Починить
 public class WordController {
 
     private final WordService wordService;
@@ -42,5 +42,6 @@ public class WordController {
 
         return result;
     }
+
 
 }
