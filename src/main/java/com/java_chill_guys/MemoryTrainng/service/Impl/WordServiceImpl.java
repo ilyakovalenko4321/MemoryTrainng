@@ -33,12 +33,12 @@ public class WordServiceImpl implements WordService {
     }
 
     private boolean hardValidate(String words, String userWords) {
-        return words.equals(userWords);
+        return words.equalsIgnoreCase(userWords);
     }
 
     private boolean validateSequence(String originalWords, String userWords) {
-        List<String> originalList = Arrays.asList(originalWords.split(" "));
-        List<String> userList = Arrays.asList(userWords.split(" "));
+        List<String> originalList = Arrays.stream(originalWords.split(" ")).map(String::toLowerCase).toList();
+        List<String> userList = Arrays.stream(userWords.split(" ")).map(String::toLowerCase).toList();
         return new HashSet<>(originalList).containsAll(userList) && new HashSet<>(userList).containsAll(originalList);
     }
 
@@ -91,11 +91,11 @@ public class WordServiceImpl implements WordService {
 
                 isCorrect = validateSequence(dto.getWords(), dto.getWordsUser());
                 if (!isCorrect) {
-                    return new DataDto(cryptoService.encrypt(level), getResultString(words, " "), "", 6);
+                    return new DataDto(cryptoService.encrypt(level), getResultString(words, " "), "", 7);
                 }
 
                 incrementOrResetLevel(level, isCorrect, 3L);
-                return new DataDto(cryptoService.encrypt(level), getResultString(words, " "), "", 6);
+                return new DataDto(cryptoService.encrypt(level), getResultString(words, " "), "", 7);
             }
             case 3 -> {
                 length = getWordLength(level);
@@ -103,11 +103,11 @@ public class WordServiceImpl implements WordService {
 
                 isCorrect = hardValidate(dto.getWords(), dto.getWordsUser());
                 if (!isCorrect) {
-                    return new DataDto(cryptoService.encrypt(level), getResultString(words, " "), "", 7);
+                    return new DataDto(cryptoService.encrypt(level), getResultString(words, " "), "", 9);
                 }
 
                 incrementOrResetLevel(level, isCorrect, 4L);
-                return new DataDto(cryptoService.encrypt(level), getResultString(words, " "), "", 7);
+                return new DataDto(cryptoService.encrypt(level), getResultString(words, " "), "", 9);
             }
             case 4 -> {
                 length = getWordLength(level);
@@ -116,12 +116,12 @@ public class WordServiceImpl implements WordService {
 
                 isCorrect = validateSequence(necessarySeq, dto.getWordsUser());
                 if (!isCorrect) {
-                    return new DataDto(cryptoService.encrypt(level), getResultString(words, " "), "", 8);
+                    return new DataDto(cryptoService.encrypt(level), getResultString(words, " "), "", 11);
                 }
 
                 incrementOrResetLevel(level, isCorrect, 5L);
                 Collections.reverse(words);
-                return new DataDto(cryptoService.encrypt(level), getResultString(words, " "), "", 8);
+                return new DataDto(cryptoService.encrypt(level), getResultString(words, " "), "", 11);
             }
             case 5 -> {
                 length = getWordLength(level);
@@ -130,12 +130,12 @@ public class WordServiceImpl implements WordService {
 
                 isCorrect = hardValidate(necessarySeq, dto.getWordsUser());
                 if (!isCorrect) {
-                    return new DataDto(cryptoService.encrypt(level), getResultString(words, " "), "", 9);
+                    return new DataDto(cryptoService.encrypt(level), getResultString(words, " "), "", 13);
                 }
 
                 incrementOrResetLevel(level, isCorrect, 0L);
                 Collections.reverse(words);
-                return new DataDto(cryptoService.encrypt(level), getResultString(words, " "), "", 9);
+                return new DataDto(cryptoService.encrypt(level), getResultString(words, " "), "", 13);
             }
         }
 

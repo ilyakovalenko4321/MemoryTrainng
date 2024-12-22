@@ -3,7 +3,7 @@ let responseData = {
     encodedLevel: "",
     words: "",
     wordsUser: "",
-    total: 0
+    total: 5
 };
 const userInput = document.getElementById('userInput');
 const requestGetTask = document.getElementById('requestGetTask');
@@ -19,7 +19,7 @@ async function getUserTask() {
     const data = await fetchData();
     console.log(data);
 
-    updateCountdown(data, responseData.total + 2, responseData.total);
+    updateCountdown(data, data.DataDto.total + 2, data.DataDto.total);
 }
 
 async function fetchData() {
