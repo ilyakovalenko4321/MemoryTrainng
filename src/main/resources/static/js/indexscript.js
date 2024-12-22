@@ -1,17 +1,15 @@
 let isNotFirstDeploy = false;
 let countdown;
-let responseData= {
+let responseData = {
     encodedLevel: "",
     words: "",
     wordsUser: ""
 };
 
-
-
-
 function getUserTask() {
     document.getElementById('userInput').style.visibility = 'hidden';
     document.getElementById('requestGetTask').style.visibility = 'hidden';
+    document.querySelector('.arrow').style.visibility = 'hidden'; // Скрыть стрелку
     responseData.wordsUser = document.getElementById('userInput').value;
     document.getElementById('userInput').value = "";
     fetch('https://memorytrainng-production.up.railway.app/api/v1/play', {
