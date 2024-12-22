@@ -132,3 +132,21 @@ h1 {
         padding: 8px 16px;
     }
 }
+#showLevelCondition {
+    transition: background-color 0.3s;
+    background-color: #28a745;
+    border-radius: 5px;
+    padding: 10px 20px;
+    margin: 20px;
+    font-size: 16px;
+    cursor: pointer;
+    color: #ffffff;
+    border: none;
+    opacity: 0;
+    animation: fadeIn 1s forwards;
+    animation-delay: 3s;
+}
+
+#showLevelCondition:hover {
+    background-color: #1e7e34;
+}
