@@ -11,10 +11,18 @@
 <h1>Сайт для тренировки памяти</h1>
 <h3 id="taskTextBox">Здесь появится текст, который нужно запомнить.</h3>
 <span id="inputContainer">
-            <input type="text" id="userInput" placeholder="Введите слово, которое появилось на экране">
-        </span>
+        <input type="text" id="userInput" placeholder="Введите слово, которое появилось на экране">
+    </span>
 <button id="requestGetTask" onclick="getUserTask()">Начать игру</button>
 <div class="arrow"></div>
 <button id="showLevelCondition" onclick="showLevelCondition()">Условия уровня</button>
+
+<!-- Всплывающее окно -->
+<div id="popup" class="popup">
+    <div class="popup-content">
+        <span class="popup-close" onclick="closePopup()">&times;</span>
+        <p id="popupText">Здесь появится текст условий уровня.</p>
+    </div>
+</div>
 </body>
 </html>

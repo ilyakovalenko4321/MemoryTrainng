@@ -4,7 +4,11 @@ let responseData = {
     words: "",
     wordsUser: "",
     total: 5,
-    text: ""
+    text: "1й этап: На данном этапе вам надо ввести его \"перевернутым\"  (столб - блотс)\n" +
+        "2й этап: На данном этапе вам надо ввести слова в любом порядке\n" +
+        "3й этап: На данном этапе вам надо ввести слова в правильном порядке\n" +
+        "4й этап: На данном этапе вам надо ввести слова перевернутыми в любом порядке\n" +
+        "5й этап: На данном этапе вам надо ввести слова в перевернутыми в правильном порядке"
 };
 let lastFetchedData = null; // Глобальная переменная для хранения последних данных
 
@@ -73,11 +77,26 @@ const updateCountdown = (data, countdown, total) => {
     }
 };
 
-// Функция для отображения условий уровня
+function showPopup(text) {
+    const popup = document.getElementById('popup');
+    const popupText = document.getElementById('popupText');
+    popupText.innerText = text;
+    popup.style.display = 'block'; // Показываем всплывающее окно
+}
+
+function closePopup() {
+    const popup = document.getElementById('popup');
+    popup.style.display = 'none'; // Скрываем всплывающее окно
+}
+
+// Модифицируем функцию showLevelCondition
 function showLevelCondition() {
     if (lastFetchedData && lastFetchedData.DataDto.text) {
-        taskTextBox.innerText = lastFetchedData.DataDto.text;
+        showPopup(lastFetchedData.DataDto.text);
     } else {
-        taskTextBox.innerText = 'Условия уровня ещё не загружены.';
+        showPopup('Условия уровня ещё не загружены.');
     }
 }
+
+
+
