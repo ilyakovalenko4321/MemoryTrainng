@@ -6,6 +6,15 @@
     <meta charset="utf-8">
     <title>Тренажёр памяти</title>
 </head>
+<header>
+    <button id="showLevelCondition" onclick="showLevelCondition()">Условия уровня</button>
+    <div id="popup" class="popup">
+        <div class="popup-content">
+            <span class="popup-close" onclick="closePopup()">&times;</span>
+            <p id="popupText">Здесь появится текст условий уровня.</p>
+        </div>
+    </div>
+</header>
 
 <body>
 <h1>Сайт для тренировки памяти</h1>
@@ -15,14 +24,6 @@
     </span>
 <button id="requestGetTask" onclick="getUserTask()">Начать игру</button>
 <div class="arrow"></div>
-<button id="showLevelCondition" onclick="showLevelCondition()">Условия уровня</button>
 
-<!-- Всплывающее окно -->
-<div id="popup" class="popup">
-    <div class="popup-content">
-        <span class="popup-close" onclick="closePopup()">&times;</span>
-        <p id="popupText">Здесь появится текст условий уровня.</p>
-    </div>
-</div>
 </body>
 </html>
