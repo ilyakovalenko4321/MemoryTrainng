@@ -17,7 +17,7 @@ async function getUserTask() {
     responseData.wordsUser = userInput.value;
     userInput.value = "";
     const data = await fetchData();
-
+    console.log(data);
 
         countdown = 7;
 
