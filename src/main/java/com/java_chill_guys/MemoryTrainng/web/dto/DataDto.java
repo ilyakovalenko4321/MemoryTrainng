@@ -6,12 +6,14 @@ public class DataDto {
     private String words;
     private String wordsUser;
     private Integer total;
+    private String text;
 
-    public DataDto(String encodedLevel, String words, String wordsUser, Integer total) {
+    public DataDto(String encodedLevel, String words, String wordsUser, Integer total, String text) {
         this.encodedLevel = encodedLevel;
         this.words = words;
         this.wordsUser = wordsUser;
         this.total = total;
+        this.text = text;
     }
 
     public DataDto() {
@@ -85,5 +87,13 @@ public class DataDto {
 
     public void setTotal(Integer total) {
         this.total = total;
+    }
+
+    public String getText() {
+        return this.text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
     }
 }
