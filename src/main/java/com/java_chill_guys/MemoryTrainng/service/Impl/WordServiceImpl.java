@@ -8,7 +8,6 @@ import com.java_chill_guys.MemoryTrainng.web.dto.DataDto;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 
@@ -43,11 +42,11 @@ public class WordServiceImpl implements WordService {
     }
 
     private int getWordLength(Level level) {
-        if (level.getRepeated() >= 9) {
+        if (level.getRepeated() > 9) {
             return 8;
-        } else if (level.getRepeated() >= 6) {
+        } else if (level.getRepeated() > 6) {
             return 7;
-        } else if (level.getRepeated() >= 3) {
+        } else if (level.getRepeated() > 3) {
             return 6;
         }
         return 5;
@@ -56,9 +55,19 @@ public class WordServiceImpl implements WordService {
     private void incrementOrResetLevel(Level level, boolean isCorrect, long nextStage) {
         if (isCorrect) {
             level.setRepeated(level.getRepeated() + 1);
-            if (level.getRepeated() == 12) {
+            if (level.getRepeated() > 13) {
                 level.setStage(nextStage);
                 level.setRepeated(0L);
+            }
+        } else {
+            if (level.getRepeated() > 9) {
+                level.setRepeated(10L);
+            } else if (level.getRepeated() > 6) {
+                level.setRepeated(7L);
+            } else if (level.getRepeated() > 3) {
+                level.setRepeated(4L);
+            } else if (level.getRepeated() > 0) {
+                level.setRepeated(1L);
             }
         }
     }
@@ -69,72 +78,76 @@ public class WordServiceImpl implements WordService {
         Level level = cryptoService.decrypt(dto.getEncodedLevel());
         boolean isCorrect;
         int length;
-        List<Word> words;
+        List<Word> words = List.of();
 
         switch (level.getStage().intValue()) {
             case 1 -> {
+                String necessarySeq = new StringBuilder(dto.getWords()).reverse().toString();
+                isCorrect = hardValidate(necessarySeq, dto.getWordsUser());
+                incrementOrResetLevel(level, isCorrect, 2L);
+
                 length = getWordLength(level);
                 words = wordRepository.selectNumOfWords(1, length);
 
-                String necessarySeq = new StringBuilder(dto.getWords()).reverse().toString();
-                isCorrect = hardValidate(necessarySeq, dto.getWordsUser());
                 if (!isCorrect) {
                     return new DataDto(cryptoService.encrypt(level), getResultString(words, ""), "", 5, "1й этап: На данном этапе вам надо ввести его \"перевернутым\"  (столб - блотс)");
                 }
 
-                incrementOrResetLevel(level, isCorrect, 2L);
                 return new DataDto(cryptoService.encrypt(level), getResultString(words, ""), "", 5, "1й этап: На данном этапе вам надо ввести его \"перевернутым\"  (столб - блотс)");
             }
             case 2 -> {
+                isCorrect = validateSequence(dto.getWords(), dto.getWordsUser());
+                incrementOrResetLevel(level, isCorrect, 3L);
+
                 length = getWordLength(level);
                 words = wordRepository.selectNumOfWords(length, length);
-
-                isCorrect = validateSequence(dto.getWords(), dto.getWordsUser());
                 if (!isCorrect) {
                     return new DataDto(cryptoService.encrypt(level), getResultString(words, " "), "", 17, "2й этап: На данном этапе вам надо ввести слова в любом порядке");
                 }
 
-                incrementOrResetLevel(level, isCorrect, 3L);
                 return new DataDto(cryptoService.encrypt(level), getResultString(words, " "), "", 17, "2й этап: На данном этапе вам надо ввести слова в любом порядке");
             }
             case 3 -> {
+                isCorrect = hardValidate(dto.getWords(), dto.getWordsUser());
+                incrementOrResetLevel(level, isCorrect, 4L);
+
                 length = getWordLength(level);
                 words = wordRepository.selectNumOfWords(length, length);
 
-                isCorrect = hardValidate(dto.getWords(), dto.getWordsUser());
                 if (!isCorrect) {
                     return new DataDto(cryptoService.encrypt(level), getResultString(words, " "), "", 19, "3й этап: На данном этапе вам надо ввести слова в правильном порядке");
                 }
 
-                incrementOrResetLevel(level, isCorrect, 4L);
                 return new DataDto(cryptoService.encrypt(level), getResultString(words, " "), "", 19, "3й этап: На данном этапе вам надо ввести слова в правильном порядке");
             }
             case 4 -> {
+                String necessarySeq = new StringBuilder(dto.getWords()).reverse().toString();
+                isCorrect = validateSequence(necessarySeq, dto.getWordsUser());
+                incrementOrResetLevel(level, isCorrect, 5L);
+
                 length = getWordLength(level);
                 words = wordRepository.selectNumOfWords(length, length);
-                String necessarySeq = new StringBuilder(dto.getWords()).reverse().toString();
 
-                isCorrect = validateSequence(necessarySeq, dto.getWordsUser());
                 if (!isCorrect) {
                     return new DataDto(cryptoService.encrypt(level), getResultString(words, " "), "", 21, "4й этап: На данном этапе вам надо ввести слова перевернутыми в любом порядке");
                 }
 
-                incrementOrResetLevel(level, isCorrect, 5L);
-                Collections.reverse(words);
+                //Collections.reverse(words);
                 return new DataDto(cryptoService.encrypt(level), getResultString(words, " "), "", 21, "4й этап: На данном этапе вам надо ввести слова перевернутыми в любом порядке");
             }
             case 5 -> {
+                String necessarySeq = new StringBuilder(dto.getWords()).reverse().toString();
+                isCorrect = hardValidate(necessarySeq, dto.getWordsUser());
+                incrementOrResetLevel(level, isCorrect, 0L);
+
                 length = getWordLength(level);
                 words = wordRepository.selectNumOfWords(length, length);
-                String necessarySeq = new StringBuilder(dto.getWords()).reverse().toString();
 
-                isCorrect = hardValidate(necessarySeq, dto.getWordsUser());
                 if (!isCorrect) {
                     return new DataDto(cryptoService.encrypt(level), getResultString(words, " "), "", 23, "5й этап: На данном этапе вам надо ввести слова в перевернутыми в правильном порядке");
                 }
 
-                incrementOrResetLevel(level, isCorrect, 0L);
-                Collections.reverse(words);
+                //Collections.reverse(words);
                 return new DataDto(cryptoService.encrypt(level), getResultString(words, " "), "", 23, "5й этап: На данном этапе вам надо ввести слова в перевернутыми в правильном порядке");
             }
         }
