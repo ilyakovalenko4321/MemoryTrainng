@@ -1,9 +1,9 @@
 let isNotFirstDeploy = false;
-let countdown;
 let responseData = {
     encodedLevel: "",
     words: "",
-    wordsUser: ""
+    wordsUser: "",
+    total: 0
 };
 const userInput = document.getElementById('userInput');
 const requestGetTask = document.getElementById('requestGetTask');
@@ -19,9 +19,7 @@ async function getUserTask() {
     const data = await fetchData();
     console.log(data);
 
-        countdown = 7;
-
-        updateCountdown(data);
+    updateCountdown(data, responseData.total + 2, responseData.total);
 }
 
 async function fetchData() {
@@ -38,8 +36,10 @@ async function fetchData() {
     }
 }
 
-const updateCountdown = (data) => {
-    if (countdown > 5) {
+const updateCountdown = (data, countdown, total) => {
+    console.log(countdown);
+    if (countdown > total) {
+        console.log(data);
         if (data.DataDto.encodedLevel === responseData.encodedLevel) {
             taskTextBox.innerText = 'Неверно! Попробуйте еще раз.';
         } else {
@@ -48,13 +48,11 @@ const updateCountdown = (data) => {
                 taskTextBox.innerText = 'Верно! Вы правильно запомнили текст.';
             }
         }
-        countdown--;
-        setTimeout(updateCountdown, 1000);
+        setTimeout(() => updateCountdown(data, countdown-1, total), 1000);
     } else {
         if (countdown > 0) {
             taskTextBox.innerText = `${data.DataDto.words} (${countdown})`;
-            countdown--;
-            setTimeout(updateCountdown, 1000);
+            setTimeout(() => updateCountdown(data, countdown-1, total), 1000);
         } else {
             requestGetTask.style.visibility = 'visible';
             userInput.style.visibility = 'visible';
