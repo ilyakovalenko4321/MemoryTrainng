@@ -8,7 +8,8 @@ let responseData = {
         "2й этап: На данном этапе вам надо ввести слова в любом порядке\n" +
         "3й этап: На данном этапе вам надо ввести слова в правильном порядке\n" +
         "4й этап: На данном этапе вам надо ввести слова перевернутыми в любом порядке\n" +
-        "5й этап: На данном этапе вам надо ввести слова в перевернутыми в правильном порядке"
+        "5й этап: На данном этапе вам надо ввести слова в перевернутыми в правильном порядке",
+    isCorrect: ""
 };
 let lastFetchedData = null; // Глобальная переменная для хранения последних данных
 
@@ -51,11 +52,11 @@ const updateCountdown = (data, countdown, total) => {
     if (countdown > total) {
         console.log(data);
         if (data.DataDto.encodedLevel === responseData.encodedLevel) {
-            taskTextBox.innerText = 'Неверно! Попробуйте еще раз.';
+            taskTextBox.innerText = data.DataDto.isCorrect;
         } else {
             if (isNotFirstDeploy) {
                 document.getElementById('requestGetTask').innerText = 'Следующее слово';
-                taskTextBox.innerText = 'Верно! Вы правильно запомнили текст.';
+                taskTextBox.innerText = data.DataDto.isCorrect;
             }
         }
         setTimeout(() => updateCountdown(data, countdown - 1, total), 1000);

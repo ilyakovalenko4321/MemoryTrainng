@@ -7,13 +7,15 @@ public class DataDto {
     private String wordsUser;
     private Integer total;
     private String text;
+    private String isCorrect;
 
-    public DataDto(String encodedLevel, String words, String wordsUser, Integer total, String text) {
+    public DataDto(String encodedLevel, String words, String wordsUser, Integer total, String text, String isCorrect) {
         this.encodedLevel = encodedLevel;
         this.words = words;
         this.wordsUser = wordsUser;
         this.total = total;
         this.text = text;
+        this.isCorrect = isCorrect;
     }
 
     public DataDto() {
@@ -95,5 +97,13 @@ public class DataDto {
 
     public void setText(String text) {
         this.text = text;
+    }
+
+    public String getIsCorrect() {
+        return this.isCorrect;
+    }
+
+    public void setIsCorrect(String isCorrect) {
+        this.isCorrect = isCorrect;
     }
 }
