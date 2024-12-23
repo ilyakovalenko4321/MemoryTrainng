@@ -32,12 +32,12 @@ public class WordServiceImpl implements WordService {
     }
 
     private boolean hardValidate(String words, String userWords) {
-        return words.equalsIgnoreCase(userWords);
+        return words.trim().equalsIgnoreCase(userWords.trim());
     }
 
     private boolean validateSequence(String originalWords, String userWords) {
-        List<String> originalList = Arrays.stream(originalWords.split(" ")).map(String::toLowerCase).toList();
-        List<String> userList = Arrays.stream(userWords.split(" ")).map(String::toLowerCase).toList();
+        List<String> originalList = Arrays.stream(originalWords.split(" ")).map(String::toLowerCase).map(String::trim).toList();
+        List<String> userList = Arrays.stream(userWords.split(" ")).map(String::toLowerCase).map(String::trim).toList();
         return new HashSet<>(originalList).containsAll(userList) && new HashSet<>(userList).containsAll(originalList);
     }
 
