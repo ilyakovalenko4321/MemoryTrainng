@@ -19,19 +19,6 @@ const arrow = document.querySelector('.arrow');
 const taskTextBox = document.getElementById('taskTextBox');
 const showLevelConditionButton = document.getElementById('showLevelCondition');
 
-async function getUserTask() {
-    userInput.style.visibility = 'hidden';
-    requestGetTask.style.visibility = 'hidden';
-    arrow.style.visibility = 'hidden'; // Скрыть стрелку
-    responseData.wordsUser = userInput.value;
-    userInput.value = "";
-
-    const data = await fetchData();
-    lastFetchedData = data; // Сохраняем данные
-    console.log(data);
-
-    updateCountdown(data, data.DataDto.total + 2, data.DataDto.total);
-}
 
 async function fetchData() {
     try {
@@ -45,6 +32,50 @@ async function fetchData() {
         document.getElementById('taskTextBox').innerText = 'Ошибка получения информации из базы данных . . .';
         console.error('Error fetching data:', error);
     }
+}
+
+function showPopup(text) {
+    const popup = document.getElementById('popup');
+    const popupText = document.getElementById('popupText');
+    popupText.innerText = text;
+    popup.style.display = 'block'; // Показываем всплывающее окно
+}
+
+function closePopup() {
+    const popup = document.getElementById('popup');
+    popup.style.display = 'none'; // Скрываем всплывающее окно
+}
+
+// Модифицируем функцию showLevelCondition
+function showLevelCondition() {
+    if (lastFetchedData && lastFetchedData.DataDto.text) {
+        showPopup(lastFetchedData.DataDto.text);
+    } else {
+        showPopup("1й этап: На данном этапе вам надо ввести его \"перевернутым\"  (столб - блотс)\n" +
+        "2й этап: На данном этапе вам надо ввести слова в любом порядке\n" +
+        "3й этап: На данном этапе вам надо ввести слова в правильном порядке\n" +
+        "4й этап: На данном этапе вам надо ввести слова перевернутыми в любом порядке\n" +
+        "5й этап: На данном этапе вам надо ввести слова в перевернутыми в правильном порядке");
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    userInput.focus(); // Устанавливаем курсор в поле ввода при загрузке страницы
+});
+
+async function getUserTask() {
+    userInput.style.visibility = 'hidden';
+    requestGetTask.style.visibility = 'hidden';
+    arrow.style.visibility = 'hidden'; // Скрыть стрелку
+    responseData.wordsUser = userInput.value;
+    userInput.value = "";
+
+    const data = await fetchData();
+    lastFetchedData = data; // Сохраняем данные
+    console.log(data);
+
+    updateCountdown(data, data.DataDto.total + 2, data.DataDto.total);
+    userInput.focus(); // Устанавливаем фокус обратно
 }
 
 const updateCountdown = (data, countdown, total) => {
@@ -74,34 +105,9 @@ const updateCountdown = (data, countdown, total) => {
 
             // Делаем кнопку условий уровня видимой
             showLevelConditionButton.style.visibility = 'visible';
+            userInput.focus(); // Устанавливаем фокус обратно
         }
     }
 };
-
-function showPopup(text) {
-    const popup = document.getElementById('popup');
-    const popupText = document.getElementById('popupText');
-    popupText.innerText = text;
-    popup.style.display = 'block'; // Показываем всплывающее окно
-}
-
-function closePopup() {
-    const popup = document.getElementById('popup');
-    popup.style.display = 'none'; // Скрываем всплывающее окно
-}
-
-// Модифицируем функцию showLevelCondition
-function showLevelCondition() {
-    if (lastFetchedData && lastFetchedData.DataDto.text) {
-        showPopup(lastFetchedData.DataDto.text);
-    } else {
-        showPopup("1й этап: На данном этапе вам надо ввести его \"перевернутым\"  (столб - блотс)\n" +
-        "2й этап: На данном этапе вам надо ввести слова в любом порядке\n" +
-        "3й этап: На данном этапе вам надо ввести слова в правильном порядке\n" +
-        "4й этап: На данном этапе вам надо ввести слова перевернутыми в любом порядке\n" +
-        "5й этап: На данном этапе вам надо ввести слова в перевернутыми в правильном порядке");
-    }
-}
-
 
 
